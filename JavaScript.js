@@ -6,6 +6,7 @@ const url = require('url');
 
 const index_page = fs.readFileSync('./index.ejs', 'utf8');
 const style_css = fs.readFileSync('./style.css', 'utf8');
+const chef = require("cyberchef");
 
 var server = http.createServer(getFromClient);
 
