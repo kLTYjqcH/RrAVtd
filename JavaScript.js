@@ -24,10 +24,6 @@ function getFromClient(request,respons){
                     var query_obj =
                     content += query.msg;
                 }
-                if(query.unko != undefined){
-                    var query_obj =
-                    content += query.unko + 'うんこやね';
-                }
                 var content = ejs.render(index_page, {
                     titleHead:"Index Head",
                     titleBody:"Index Body",
