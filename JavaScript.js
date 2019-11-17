@@ -70,6 +70,22 @@ function getFromClient(request,respons){
                 respons.write(content);
                 respons.end();
                 break;
+        case '/aes':
+                var content = "aes:"
+                var query = url_parts.query;
+                if(query.msg != undefined){
+                    var query_obj =
+                    content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Hex","Hex"]}]);
+                }
+                var content = ejs.render(index_page, {
+                    titleHead:"Index Head",
+                    titleBody:"Index Body",
+                    content:content,
+                });
+                respons.writeHead(200, {'Content-Type':'text/html'});
+                respons.write(content);
+                respons.end();
+                break;
         default:
                 respons.writeHead(200, {'Content-Type':'text/plain'});
                 respons.end('no page');
