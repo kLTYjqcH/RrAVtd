@@ -6,6 +6,7 @@ const url = require('url');
 
 const index_page = fs.readFileSync('./index.ejs', 'utf8');
 const style_css = fs.readFileSync('./style.css', 'utf8');
+const chef = require("cyberchef");
 
 var server = http.createServer(getFromClient);
 
@@ -22,10 +23,6 @@ function getFromClient(request,respons){
                 if(query.msg != undefined){
                     var query_obj =
                     content += query.msg;
-                }
-                if(query.unko != undefined){
-                    var query_obj =
-                    content += query.unko + 'うんこやね';
                 }
                 var content = ejs.render(index_page, {
                     titleHead:"Index Head",
@@ -63,6 +60,22 @@ function getFromClient(request,respons){
                 if(query.msg != undefined){
                     var query_obj =
                     content = chef.toBase64(query.msg);
+                }
+                var content = ejs.render(index_page, {
+                    titleHead:"Index Head",
+                    titleBody:"Index Body",
+                    content:content,
+                });
+                respons.writeHead(200, {'Content-Type':'text/html'});
+                respons.write(content);
+                respons.end();
+                break;
+        case '/aes':
+                var content = "aes:"
+                var query = url_parts.query;
+                if(query.msg != undefined){
+                    var query_obj =
+                    content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Hex","Hex"]}]);
                 }
                 var content = ejs.render(index_page, {
                     titleHead:"Index Head",
