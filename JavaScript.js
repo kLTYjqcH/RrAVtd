@@ -70,12 +70,20 @@ function getFromClient(request,respons){
                 respons.write(content);
                 respons.end();
                 break;
+<<<<<<< HEAD
         case '/aesencrypt':
+=======
+        case '/aes':
+>>>>>>> origin/master
                 var content = "aes:"
                 var query = url_parts.query;
                 if(query.msg != undefined){
                     var query_obj =
+<<<<<<< HEAD
                     content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Raw","Hex"]}]);
+=======
+                    content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Hex","Hex"]}]);
+>>>>>>> origin/master
                 }
                 var content = ejs.render(index_page, {
                     titleHead:"Index Head",
@@ -86,6 +94,7 @@ function getFromClient(request,respons){
                 respons.write(content);
                 respons.end();
                 break;
+<<<<<<< HEAD
         case '/aesdecrypt':
             var content = "aes:"
             var query = url_parts.query;
@@ -169,6 +178,8 @@ function getFromClient(request,respons){
                     respons.write(content);
                     respons.end();
                     break;
+=======
+>>>>>>> origin/master
         default:
                 respons.writeHead(200, {'Content-Type':'text/plain'});
                 respons.end('no page');
