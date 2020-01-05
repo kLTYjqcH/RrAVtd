@@ -70,12 +70,12 @@ function getFromClient(request,respons){
                 respons.write(content);
                 respons.end();
                 break;
-        case '/aes':
+        case '/aesencrypt':
                 var content = "aes:"
                 var query = url_parts.query;
                 if(query.msg != undefined){
                     var query_obj =
-                    content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Hex","Hex"]}]);
+                    content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":"czamdkxqxzcjzeeg"},{"option":"UTF8","string":"czamdkxqxzcjzeeg"},"CBC","Raw","Hex"]}]);
                 }
                 var content = ejs.render(index_page, {
                     titleHead:"Index Head",
@@ -86,6 +86,89 @@ function getFromClient(request,respons){
                 respons.write(content);
                 respons.end();
                 break;
+        case '/aesdecrypt':
+            var content = "aes:"
+            var query = url_parts.query;
+            if(query.msg != undefined){
+                var query_obj =
+                content = chef.bake(query.msg,[{"op":"AES Decrypt","args":[{"option":"UTF8","string":"vad5jvt52k59rspx"},{"option":"UTF8","string":"v96cjgvvmgawhft6"},"CBC","Hex","Raw",{"option":"Hex","string":""}]}]);
+            }
+            var content = ejs.render(index_page, {
+                titleHead:"Index Head",
+                titleBody:"Index Body",
+                content:content,
+            });
+            respons.writeHead(200, {'Content-Type':'text/html'});
+            respons.write(content);
+            respons.end();
+            break;
+        case '/aesbase':
+            var content = "aes:"
+            var query = url_parts.query;
+            if(query.msg != undefined){
+                var query_obj =
+                content = chef.bake(query.msg,[{"op":"AES Encrypt","args":[{"option":"UTF8","string":query.key},{"option":"UTF8","string":query.iv},"CBC","Raw","Raw"]},{"op":"To Base64","args":["A-Za-z0-9+/="]}]);
+            }
+            var content = ejs.render(index_page, {
+                titleHead:"Index Head",
+                titleBody:"Index Body",
+                content:content,
+            });
+            respons.writeHead(200, {'Content-Type':'text/html'});
+            respons.write(content);
+            respons.end();
+            break;
+
+        case '/baseaes':
+            var content = "aes:"
+            var query = url_parts.query;
+            if(query.msg != undefined){
+                var query_obj =
+                content = chef.bake(query.msg,[{"op":"From Base64","args":["A-Za-z0-9+/=",true]},{"op":"AES Decrypt","args":[{"option":"UTF8","string":query.key},{"option":"UTF8","string":query.iv},"CBC","Raw","Raw",{"option":"Hex","string":""}]}]);
+            }
+            var content = ejs.render(index_page, {
+                titleHead:"Index Head",
+                titleBody:"Index Body",
+                content:content,
+            });
+            respons.writeHead(200, {'Content-Type':'text/html'});
+            respons.write(content);
+            respons.end();
+            break;
+
+            case '/urlencode':
+                var content = "aes:"
+                var query = url_parts.query;
+                if(query.msg != undefined){
+                    var query_obj =
+                    content = chef.bake(query.msg,[{"op":"URL Encode","args":[true]}]);
+                }
+                var content = ejs.render(index_page, {
+                    titleHead:"Index Head",
+                    titleBody:"Index Body",
+                    content:content,
+                });
+                respons.writeHead(200, {'Content-Type':'text/html'});
+                respons.write(content);
+                respons.end();
+                break;
+
+                case '/urldecode':
+                    var content = "aes:"
+                    var query = url_parts.query;
+                    if(query.msg != undefined){
+                        var query_obj =
+                        content = chef.bake(query.msg,[{"op":"URL Decode","args":[]}]);
+                    }
+                    var content = ejs.render(index_page, {
+                        titleHead:"Index Head",
+                        titleBody:"Index Body",
+                        content:content,
+                    });
+                    respons.writeHead(200, {'Content-Type':'text/html'});
+                    respons.write(content);
+                    respons.end();
+                    break;
         default:
                 respons.writeHead(200, {'Content-Type':'text/plain'});
                 respons.end('no page');
